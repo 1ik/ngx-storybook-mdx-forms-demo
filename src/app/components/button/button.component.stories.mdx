@@ -1,0 +1,68 @@
+import { Meta, Story, ArgsTable, Canvas } from "@storybook/addon-docs/blocks";
+import { moduleMetadata } from "@storybook/angular";
+
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+
+import { ButtonComponent } from "./button.component";
+import { AppModule } from "./../../app.module";
+import { formBuilder } from "./../../../../.storybook/mocks/form-builder";
+
+<Meta
+  title="ButtonComponent"
+  decorators={[
+    moduleMetadata({
+      imports: [BrowserModule, CommonModule, FormsModule, ReactiveFormsModule],
+      declarations: [ButtonComponent],
+    }),
+  ]}
+/>
+
+# ButtonComponent
+
+A button
+
+# use
+
+<Canvas>
+  <Story name="ButtonComponent" height="100px">
+    {{
+      template: `
+<div>
+<app-button [val]="myVal" (click)="clicked"></app-button>
+</div>
+      `,
+      props: {
+        myVal: "click me!",
+        clicked: () => alert("clicked"),
+      },
+    }}
+  </Story>
+</Canvas>
+
+# advanced use
+
+<Canvas>
+  <Story name="Advanced ButtonComponent" height="100px">
+    {{
+      template: `
+<form [formGroup]="frm">
+<input formControlName="myIpt" />
+<app-button [val]="'submit'"></app-button>
+<pre>Form value: {{ frm.value | json }} - Form valid: {{ frm.valid }}</pre>
+</form>
+      `,
+      props: {
+        frm: formBuilder.group({
+          myIpt: ["", Validators.required],
+        }),
+        myPlaceholder: "write here",
+      },
+    }}
+  </Story>
+</Canvas>
+
+# documentation
+
+<ArgsTable of={ButtonComponent} />
